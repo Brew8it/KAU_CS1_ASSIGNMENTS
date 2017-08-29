@@ -1,0 +1,11 @@
+1 What is the adversary’s goal and capabilities in IND-CPA?
+2 What is the difference between an IV and a nonce?
+3 What is the difference between a protocol and an algorithm?
+4 Describe the CBC and CTR block-cipher modes.
+5 For symmetric encryption with a block cipher using CBC-mode, what is the consequence of:
+	1 Using a predictable IV?
+	2 Reusing an IV?
+6 How is ROT13 related to the Caesar cipher? Give an example.
+7 Assume that you compress a message m as part of encrypting it with a
+semantically secure encryption algorithm: does this break semantic security? Explain why (not).
+8 Attempt to answer the question on slide 13.
