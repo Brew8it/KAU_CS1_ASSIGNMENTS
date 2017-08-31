@@ -12,7 +12,8 @@
 		Conversely, most block cipher modes of operation require an IV which is random 			and unpredictable, or at least unique for each message encrypted with a given 			key. (Of course, if each key is only ever used to encrypt a single message, 			one can get away with using a fixed IV.) This random IV ensures that each 			message encrypts differently, such that seeing multiple messages encrypted 			with the same key doesn't give the attacker any more information than just 			seeing a single long message. In particular, it ensures that encrypting the 			same message twice yields two completely different ciphertexts, which is 			necessary in order for the encryption scheme to be semantically secure.
 	The difference is that a Nonce is a random number only used once and for a short time
 	with the intention of beeing replaced by or converted into something better(e.g CTR)
-	An IV is also used as input for an crypto primitive to achieve randomization to our 		first block in a CBC mode.
+	An IV is also used as input for an crypto primitive to achieve randomization to our 		first block in a CBC mode and therefor messages that is the same (m1=m2) will not
+	encrypt to the same cipher.
 	
 3 What is the difference between a protocol and an algorithm?
 4 Describe the CBC and CTR block-cipher modes.
