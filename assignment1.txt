@@ -1,5 +1,14 @@
 1 What is the adversary’s goal and capabilities in IND-CPA?
+	*The goal is to prove that an symmetric encryption algorithm is unsecure via a game.
+	if an symmetric encryption algorithm is 50/50 the algorithm is deamd to be secure since
+	the adversary is only guessing at that point.
+	*The capabillities the adversary has is an "encryption oracle" meaning that it can
+	send how many messages it wants and get back the cyphertext and compute it as much it
+	wants.
 2 What is the difference between an IV and a nonce?
+	*Nonce a number only used once.
+	*IV(initialization vector): has to be 
+	
 3 What is the difference between a protocol and an algorithm?
 4 Describe the CBC and CTR block-cipher modes.
 5 For symmetric encryption with a block cipher using CBC-mode, what is the consequence of:
