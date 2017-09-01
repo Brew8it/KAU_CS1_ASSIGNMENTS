@@ -34,9 +34,43 @@
 		The protocol is. The algorithm does.
 	
 4 Describe the CBC and CTR block-cipher modes.
+	*In CBC mode each block of plaintext is XOR'd with the previous ciphertext block 
+	(if first block the IV is used) before beeing encrypted. To make sure that every
+	message is unique an IV must be used on the first block. Since the block cipher
+	encryption relys on the the previous block used the encryption process must be done in 		sequence and cannot be parallelized(downside/slow).
+	One other important aspect is padding, when we try to break down a message into blocks
+	what will happen if the last block is not even with the block size?
+	message_block != block_size. We have to padd the last block so the block is fully 		filled. When padding we ussaly fill with ones or zeros. But when we decrypt how
+	much do we need to unpad? One way in python is useing these lambda expressions:
+	BLOCK_SIZE = 16  # Bytes
+	pad = lambda s: s + (BLOCK_SIZE - len(s) % BLOCK_SIZE) * \
+                chr(BLOCK_SIZE - len(s) % BLOCK_SIZE)
+	unpad = lambda s: s[:-ord(s[len(s) - 1:])]
 	
+	Decryption is almsot done in the same way but insted of XORing in the beginning.
+	We XOR after we have decrypted the cipher text. We XOR with the previous ciphertext
+	meaning that we can parallelize the decryption process and gain alot of speed.
+	
+	https://upload.wikimedia.org/wikipedia/commons/8/80/CBC_encryption.svg
+	https://upload.wikimedia.org/wikipedia/commons/2/2a/CBC_decryption.svg
 
 
+	*CTR mode(counter mode): Is a mode of operation that works by concatenating 
+	a nonce with a block counter. The counter is incremented with each of the blocks and
+	then padded with zeroes so that the whole string is as long as the block size. This
+	resulting string is then run trough the block cioher. The output of the block zipher 		is the used XOR'd with the message block to produce the final encrypted block.
+	To decrypt we just do the same thing on the reciver side except when we XOR, we 
+	xOR with the ciphertext block. This is since XORing a bit with the same value twice
+	will produce the original bit. pi ⊕ si ⊕ si = pi. What this means is that both
+	encryption and decryption does the same thing. in both the cases you produce the
+	encrypted block from the concatenated string and then you either XOR the plaintext
+	or ciphertext block. This also means that this can be done in parallel.	
+	
+	https://upload.wikimedia.org/wikipedia/commons/4/4d/CTR_encryption_2.svg
+	https://upload.wikimedia.org/wikipedia/commons/3/3c/CTR_decryption_2.svg
+	
+	PS: With hardware supprt CBC mode can be as fast if not faster then CTR mode. But
+	this needs to be implemented in the hardware that most CPU manufactures today 		implements
 
 
 5 For symmetric encryption with a block cipher using CBC-mode, what is the consequence of:
