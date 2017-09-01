@@ -74,8 +74,37 @@
 
 
 5 For symmetric encryption with a block cipher using CBC-mode, what is the consequence of:
-	1 Using a predictable IV?
-	2 Reusing an IV?
+	*Using a predictable IV?: If we use a predictable IV we can use an so called:
+	Chosen-Plaintext Attack. If we look at an easy game regarding this:
+	If we pretend that our DBA at company X is an advesary. This company store medical 	   illnesses of its costumers as "yes/no" but these awnser are encrypted with CBC. Our 		DBA realizes that he can extort ppl with serten illnesses for money. 
+	In CBC mode the IV is XOR'd with the plaintext, then run block encryption ciper giving 
+	ecvation: C1 = Ek(IV ⊕ P1).
+	
+	Since our DBA can enter his own data into the database and get it encrypted when
+	ever he likes and he can also predict what his IV(IVX) will be aswell as as his target
+	Alices(IVa). Since he know this he can send his own message Px to get encrypted.
+	Px = IVx ⊕ IVa ⊕ "false".
+	The CBC will the encrypt our message like this:
+	Cx = Ek(IVx ⊕ Px) = Ek(IVx ⊕ (Ivx ⊕ IVa ⊕ "false")).
+	The IVx ⊕ Ivx will cancel out eachother wich means the ecvation will change to:
+	Cx = Ek(IVa ⊕ "false")
+	Now our adversary can simply compare the ourput he got with alices and see if they 		match(e.g false to that illness) or if they dont match alice has the illnes.
+
+	*Reusing an IV?
+	Problem is that same messages will encrypt to the same cipher text. 
+	Specifically, assuming there's no padding, the vulnerability that occurs with using t	he same IV every time is that if you start out encrypting the same data you encrypted 		last time, you'll get the same encrypted string both times. This allows attackers to 		infer something about the message content, though it doesn't help them decrypt it.
+
+	C1 = E(P1 ⊕ IVx)
+	C2 = E(P2 ⊕ IVx)
+
+	P3 = (P1 ⊕ IVx) ⊕ (P2 ⊕ IVx)
+	C3 = E((P1 ⊕ IVx) ⊕ (P2 ⊕ IVx) ⊕ IVx)
+
+	fråga tobisas!!
+
+
+
+
 6 How is ROT13 related to the Caesar cipher? Give an example.
 7 Assume that you compress a message m as part of encrypting it with a
 semantically secure encryption algorithm: does this break semantic security? Explain why (not).
