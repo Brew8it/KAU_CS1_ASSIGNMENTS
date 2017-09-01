@@ -113,5 +113,16 @@
 
 7 Assume that you compress a message m as part of encrypting it with a
 semantically secure encryption algorithm: does this break semantic security? Explain why (not).
+	It does not break the semanticly secured scheme since in case of BEAST attack they
+	use that the compressing algorithm "leaks" information about a block becouse one
+	optimasation compress algos has is that if a block that is beeing compress'd is the 		same as one before it does not compress it again it only gives a referens to the passt
+	compress'd block. The way TLS has protected against this is using explicit IV's
+	
+	REF:https://crypto.stackexchange.com/questions/2641/why-do-new-versions-of-tls-use-an-explicit-iv-for-cbc-suites
+	[CBCATT] describes a chosen plaintext attack on TLS that depends on knowing the IV for 		a record. Previous versions of TLS [TLS1.0] used the CBC residue of the previous 		record as the IV and therefore enabled this attack. This version uses an explicit IV 		in order to protect against this attack.
+
+	http://www.ietf.org/rfc/rfc4346.txt
+        http://www.openssl.org/~bodo/tls-cbc.txt.
+	
 8 Attempt to answer the question on slide 13.
 	VETO
