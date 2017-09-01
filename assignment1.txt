@@ -1,3 +1,4 @@
+----------------------Assignments from lecture 1 crypto----------------------
 1 What is the adversary’s goal and capabilities in IND-CPA?
 	*The goal is to prove that an symmetric encryption algorithm is unsecure via a game.
 	if an symmetric encryption algorithm is 50/50 the algorithm is deamd to be secure since
@@ -126,3 +127,41 @@ semantically secure encryption algorithm: does this break semantic security? Exp
 	
 8 Attempt to answer the question on slide 13.
 	VETO
+----------------------Assignments from lecture 2 crypto----------------------
+1 For a cryptographic hash function, what is the difference between
+second pre-image resistance and collision resistance?
+
+2 A cryptographic hash function has the output length of n bits. What is
+its security (in bits), at best, in terms of collision resistance?
+
+3 Calculate the probability of the birthday paradox for a room of 38
+people.
+
+4 A website stores its users’ passwords in a database by hashing them
+with SHA-256. How long does it take for an attacker that has access to
+the database to find all 7-character passwords? Make assumptions
+about what are valid characters and what kind of PC the attacker has
+(but the attacker is using hashcat).
+
+5 Alice and Bob share a secret key sk. Alice sends to Bob, over a network, a message
+m and a tag t from a MAC over m using sk. How does Bob verify that the message hasn’t been tampered with?
+
+6 You go to a website and download a file. The website lists the MD5,
+SHA1, and SHA256 hashes of the file for verification purposes. How
+useful is this for security? Motivate your answer.
+
+7 A website offers a feature to “recover your password” if you forget it.
+You use the feature and the website sends you your password to your
+email. What does this imply? Is it good or bad? Motivate your answer.
+
+8 Explain the logic behind the “correct horse battery staple” comic.
+
+
+
+
+
+
+
+
+
+
