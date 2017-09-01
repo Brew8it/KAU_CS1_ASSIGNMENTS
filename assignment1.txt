@@ -16,7 +16,29 @@
 	encrypt to the same cipher.
 	
 3 What is the difference between a protocol and an algorithm?
+	*algorithm: Is how we process some data to derive at an awnser.
+	*protocol: Its like an algorithm but it invoves several players / entities
+	that is communicating using primitives and / or schemes
+		A protocol is a set of rules that governs how a system operates. The rules 			establish the basic functioning of the different parts, how they interact with 			each other, and what conditions are necessary for a healthy implementation. 			The different parts of a protocol are not sensitive to order or chronology – 			it doesn’t matter which part is enacted first. And a protocol doesn’t tell the 			system how to produce a result. It doesn’t have an objective other than a 			smooth execution. It doesn’t produce an output.
+
+		It’s like the engine of a car, how a car works.
+
+		An algorithm, on the other hand, is a set of instructions that produces an 			output or a result. It can be a simple script, or a complicated program. The 			order of the instructions is important, and the algorithm specifies what that 			order is. It tells the system what to do in order to achieve the desired 			result. It may not know what the result is beforehand, but it knows that it 			wants one.
+
+		It’s what you need to do to drive the car, the actions that the driver 			performs.
+
+		The protocol is a set of rules that determines how the system functions.
+
+		The algorithm tells the system what to do.
+
+		The protocol is. The algorithm does.
+	
 4 Describe the CBC and CTR block-cipher modes.
+	
+
+
+
+
 5 For symmetric encryption with a block cipher using CBC-mode, what is the consequence of:
 	1 Using a predictable IV?
 	2 Reusing an IV?
