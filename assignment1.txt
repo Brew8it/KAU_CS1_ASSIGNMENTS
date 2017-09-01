@@ -102,10 +102,16 @@
 
 	fråga tobisas!!
 
-
-
-
 6 How is ROT13 related to the Caesar cipher? Give an example.
+	Both are so called "simple" letter substitution cipher's that replaces a letter with 		the letter X steps forward. ROT13 is 13 step ahead of the original character. 
+	Using a Cesar shift of 13 will yeld the same as the ROT13 cipher.
+	Input 	ABCDEFGHIJKLM | NOPQRSTUVWXYZ | abcdefghijklm | nopqrstuvwxyz
+	Output 	NOPQRSTUVWXYZ | ABCDEFGHIJKLM | nopqrstuvwxyz | abcdefghijklm
+
+	Plaintext: Johannes is best
+	Obscured:  Wbunaarf vf orfg
+
 7 Assume that you compress a message m as part of encrypting it with a
 semantically secure encryption algorithm: does this break semantic security? Explain why (not).
 8 Attempt to answer the question on slide 13.
+	VETO
