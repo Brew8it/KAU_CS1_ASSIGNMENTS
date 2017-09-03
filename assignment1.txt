@@ -164,7 +164,10 @@ about what are valid characters and what kind of PC the attacker has
 
 
 5 Alice and Bob share a secret key sk. Alice sends to Bob, over a network, a message
-m and a tag t from a MAC over m using sk. How does Bob verify that the message hasn’t been tampered with?
+m and a tag t from a MAC over m using sk. How does Bob verify that the message hasn’t been tampered with?:
+	Alice tag = at, bob tag = bt.
+	Bob can run the message into the MAC algorithm and the "MAC/TAG" outputed is then 		compared. if they are the same(at = bt), the message has not been tamperd with.
+	
 
 6 You go to a website and download a file. The website lists the MD5,
 SHA1, and SHA256 hashes of the file for verification purposes. How
