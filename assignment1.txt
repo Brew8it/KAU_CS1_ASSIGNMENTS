@@ -154,6 +154,14 @@ with SHA-256. How long does it take for an attacker that has access to
 the database to find all 7-character passwords? Make assumptions
 about what are valid characters and what kind of PC the attacker has
 (but the attacker is using hashcat).
+	valid character = (A-Z,a-z,0-9)
+	7 characters at 62 values per digit = 62^7 = 3,521614606×10¹²
+	according to: https://gist.github.com/epixoip/a83d38f412b4737e99bbef804a270c40
+	a GTX1080 makes: 2,876,000,000(2,876x10⁹) sha-256 attepmts per second using hashcat.
+	3,521614606×10¹² / 2,876x10⁹ / 60 = 20.408 minutes using only 1 GPU.
+	using 2 GPU's only yelds 7,3 minutes.
+	
+
 
 5 Alice and Bob share a secret key sk. Alice sends to Bob, over a network, a message
 m and a tag t from a MAC over m using sk. How does Bob verify that the message hasn’t been tampered with?
