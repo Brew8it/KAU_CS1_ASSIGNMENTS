@@ -180,12 +180,23 @@ useful is this for security? Motivate your answer.
 	When you have downloaded a file you can run it through the hasfunction and if the
 	hash value return = the one on the homepage the file has not been tamperd with.
 	If somthing has been change'd even 1 bit it will make the hash value look completly 		diffrent because of the avalanche effect.
+	PS: against MITM attacks and if the server hosting the file is compromised  but
+	not the web frontend so that hashvalue is still the same.
 	
 
 7 A website offers a feature to “recover your password” if you forget it.
 You use the feature and the website sends you your password to your
 email. What does this imply? Is it good or bad? Motivate your answer.
-	
+	https://softwareengineering.stackexchange.com/questions/29753/what-type-of-password-reset-forgot-password-verification-mechanism-would-you-r
+	It depends on what process the password is recoverd. Is it sent in plaintext in the 		email, this is really bad since traffic can be ecedropd on and also implies that
+	you are the only one having access to that email. If the website sends a one time token
+	(https adress) to theire webpage where u can create your own password this is abit 		better but same issue's as above is emplyed. But this time the password is still hidden
+	if you are the first one to use the token. as we can see both these methods weeknes is
+	in the email step where it relys on that you are the only one having access to that 		email. This is tho the most accepted method for most pepole, since we do not want a 
+	user to have a bad experiance using the service if we have to use a more "sercure" way.
+	e.g send it to the persons home address by letter using a letter that can be easy to 		see if it has been tamperd with. 
+	From a security standpoint its a bad way but it is a compromise between security and
+	user experiance.
 
 
 8 Explain the logic behind the “correct horse battery staple” comic.
