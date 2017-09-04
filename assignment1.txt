@@ -142,11 +142,14 @@ second pre-image resistance and collision resistance?
 
 2 A cryptographic hash function has the output length of n bits. What is
 its security (in bits), at best, in terms of collision resistance?
-	When no known weakness the "cost" of finding a collision is 2^(n/2)
+	When no known weakness the "cost" of finding a collision is 2^(n/2) time.
+	in bits n/2. 
 
 3 Calculate the probability of the birthday paradox for a room of 38
 people.
 	(1-i/365) aprox = e^(-i/365) = 0,9011 = 90,11%
+
+	1-(364/265)^(n(n-1)/2)
 	
 
 4 A website stores its users’ passwords in a database by hashing them
@@ -160,8 +163,9 @@ about what are valid characters and what kind of PC the attacker has
 	a GTX1080 makes: 2,876,000,000(2,876x10⁹) sha-256 attepmts per second using hashcat.
 	3,521614606×10¹² / 2,876x10⁹ / 60 = 20.408 minutes using only 1 GPU.
 	using 2 GPU's only yelds 7,3 minutes.
-	
 
+	ev om det är 20,408 / 2 * X, (X = antal lösenord)(tiden/2 är pga birthday paradox)
+	
 
 5 Alice and Bob share a secret key sk. Alice sends to Bob, over a network, a message
 m and a tag t from a MAC over m using sk. How does Bob verify that the message hasn’t been tampered with?:
@@ -172,10 +176,17 @@ m and a tag t from a MAC over m using sk. How does Bob verify that the message h
 6 You go to a website and download a file. The website lists the MD5,
 SHA1, and SHA256 hashes of the file for verification purposes. How
 useful is this for security? Motivate your answer.
+	This is suer useful to verify that a file has not been tamperd with.
+	When you have downloaded a file you can run it through the hasfunction and if the
+	hash value return = the one on the homepage the file has not been tamperd with.
+	If somthing has been change'd even 1 bit it will make the hash value look completly 		diffrent because of the avalanche effect.
+	
 
 7 A website offers a feature to “recover your password” if you forget it.
 You use the feature and the website sends you your password to your
 email. What does this imply? Is it good or bad? Motivate your answer.
+	
+
 
 8 Explain the logic behind the “correct horse battery staple” comic.
 
