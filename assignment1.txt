@@ -200,7 +200,8 @@ email. What does this imply? Is it good or bad? Motivate your answer.
 
 
 8 Explain the logic behind the “correct horse battery staple” comic.
-
+	That useing pass-phrases is alot easier for humans to remember but "harder" for 
+	computers to crack.
 
 
 
