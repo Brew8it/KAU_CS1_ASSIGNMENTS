@@ -202,7 +202,7 @@ email. What does this imply? Is it good or bad? Motivate your answer.
 8 Explain the logic behind the “correct horse battery staple” comic.
 	That useing pass-phrases is alot easier for humans to remember but "harder" for 
 	computers to crack.
-----------------------Assignments from lecture 2 crypto----------------------
+----------------------Assignments from lecture 3 crypto----------------------
 1 Is there any impact on security of a public-key cryptosystem if an
 adversary learns the public key?
 	No, (kanske veto)
@@ -240,11 +240,37 @@ m = c^d mod n = 15^63 mod 187 = 42
 m is still the same after encryption and decryption.
 
 3 Do a full DH key-exchange with p = 17 and g = 3.
+	1: Alice chooses a secret int a = 5, calculates and sends bob A:
+		A = g^a mod p = 3^5 mod 17 = 5.
+	2: Bob chooses a secret int b = 12, calculates and seds alaice B:
+		B = g^b mod p = 3^12 mod 17 = 4
+	3: Alice computes Secret key (Ask).
+		Ask = B^a mod p = 4^5 mod 17 = 4
+	4 Bob computes Secret Key  (Bsk)
+		Bsk = A^b mod p = 5^12 mod 17 = 4
+
+	Alice and Bob now has the same Secret key, Ask = Bsk (4=4)
+
 
 4 How can an active adversary subvert a DH key-exchange?
+https://stackoverflow.com/questions/10471009/how-does-the-man-in-the-middle-attack-work-in-diffie-hellman
+https://www.youtube.com/watch?v=PPt7yvBtGRI
+	"The Diffie-Hellman key exchange is vulnerable to a man-in-the-middle attack. In this 		attack, an opponent Carol intercepts Alice's public value and sends her own public 		value to Bob. When Bob transmits his public value, Carol substitutes it with her own 		and sends it to Alice. Carol and Alice thus agree on one shared key and Carol and Bob 		agree on another shared key. After this exchange, Carol simply decrypts any messages 		sent out by Alice or Bob, and then reads and possibly modifies them before 
+	re-encrypting with the appropriate key and transmitting them to the other party. This 		vulnerability is present because Diffie-Hellman key exchange does not authenticate the 		participants. Possible solutions include the use of digital signatures and other 		protocol variants."
 
+----------------------Assignments from lecture 4 crypto----------------------
+1Why does it make sense to assume that the adversary always has
+access to an encryption oracle when modeling security for
+public-key encryption schemes?
 
+2 What is the difference between a CSPRNG and a PRNG?
 
+3 Give examples, for a programming language of your choice, of how to
+use (i) a CSPRNG and (ii) a non-CS PRNG.
+
+4 In a database, you use (verified valid) signatures as primary keys for
+your users. Why could this be a problem with some signature
+schemes?
 
 
 
