@@ -202,7 +202,46 @@ email. What does this imply? Is it good or bad? Motivate your answer.
 8 Explain the logic behind the “correct horse battery staple” comic.
 	That useing pass-phrases is alot easier for humans to remember but "harder" for 
 	computers to crack.
+----------------------Assignments from lecture 2 crypto----------------------
+1 Is there any impact on security of a public-key cryptosystem if an
+adversary learns the public key?
+	No, (kanske veto)
 
+2 Do a full RSA key-generation, encryption, and decryption for
+p = 17, q = 11, and m = 42. Ignore any padding. Details of picking
+e and d can be omitted.
+
+n = p * q = 17 * 11 = 187
+
+ϕ(n) = (p−1) * (q−1) = (17-1) * (11-1) = 16 * 10 = 160
+--------------------------------------------------------
+generate an integer e, such that 1 < e < ϕ(n) && gcd(e,ϕ(n)) = 1
+https://primes.utm.edu/lists/small/1000.txt
+e = 127
+gcd(160,127)
+160 = 127 * 1 + 33
+127 = 33 * 3 + 28
+33 = 28 * *1 + 5
+28 = 5 * 5 + 3
+5 = 3 * 1 + 2
+3 = 2 *1 + 1;;; GCD = 1
+----------------------------------------
+d = e ^(-1) mod(ϕ(n)) [inverse]
+https://planetcalc.com/3311/
+d = 63
+-----------------------------------------
+Encryption:
+m = 42, e = 127, n = 187,
+c = m^e mod n = 42^127 mod 187 = 15.
+Decryption:
+c = 15, d = 63, n = 187.
+m = c^d mod n = 15^63 mod 187 = 42
+
+m is still the same after encryption and decryption.
+
+3 Do a full DH key-exchange with p = 17 and g = 3.
+
+4 How can an active adversary subvert a DH key-exchange?
 
 
 
