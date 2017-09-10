@@ -289,7 +289,25 @@ schemes?
 sida 151 crypto 101
 
 ----------------------Assignments from lecture 5 crypto----------------------
+1 What is the difference between secure symmetric encryption and
+secure authenticated symmetric encryption?
 
+2 In a programming language of your choice, show how to encrypt the
+message “hello world!” with NaCl/libsodium secretbox.
+
+3 What is the point of using ephemeral (EC)DH, as denoted by ECDHE
+or DHE, in a TLS cipher suite?
+
+4 Briefly explain the role of each primitive/scheme in the
+TLS_ECDH_RSA_WITH_AES_128_GCM_SHA256 TLS cipher suite.
+
+5 Briefly explain the role of each primitive/scheme in the
+TLS_PSK_WITH_CAMELLIA_128_CBC_SHA256 TLS cipher suite.
+
+6 What is the name or names of the one or more certificate authorities
+that signed the certificate for https://www.kau.se?
+
+7 Briefly explain what is “Let’s Encrypt”.
 
 
 
