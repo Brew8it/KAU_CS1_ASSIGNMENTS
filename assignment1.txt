@@ -259,18 +259,37 @@ https://www.youtube.com/watch?v=PPt7yvBtGRI
 	re-encrypting with the appropriate key and transmitting them to the other party. This 		vulnerability is present because Diffie-Hellman key exchange does not authenticate the 		participants. Possible solutions include the use of digital signatures and other 		protocol variants."
 
 ----------------------Assignments from lecture 4 crypto----------------------
-1Why does it make sense to assume that the adversary always has
+1 Why does it make sense to assume that the adversary always has
 access to an encryption oracle when modeling security for
 public-key encryption schemes?
+	Becouse the the public key is known so the adversary can encrypt as many messages he/she wants.
 
 2 What is the difference between a CSPRNG and a PRNG?
+https://crypto.stackexchange.com/questions/12436/what-is-the-difference-between-csprng-and-prng
+	"PRNG" means "Pseudorandom Number Generator" which means that a sequence of numbers (bits, bytes...) is produced from an algorithm which looks random, but is in fact deterministic 		(the sequence is generated from some unknown internal state), hence pseudorandom.
+
+	Such pseudorandomness can be cryptographically secure, or not. It is cryptographically secure if nobody can reliably distinguish the output from true randomness, even if the PRNG 		algorithm is perfectly known (but not its internal state). A non-cryptographically secure PRNG would fool basic statistical tests but can be distinguished from true randomness by an 		intelligent attacker.
 
 3 Give examples, for a programming language of your choice, of how to
 use (i) a CSPRNG and (ii) a non-CS PRNG.
+	from random import randint
+	import OpenSSL
+
+	PRNG = randint(0,10)	
+	print "PRNG = {}".format(PRNG)
+
+	CSPRNG = int(OpenSSL.rand.bytes(1).encode('hex'),16)
+
+	print "CSPRNG = {}".format(CSPRNG)
+
 
 4 In a database, you use (verified valid) signatures as primary keys for
 your users. Why could this be a problem with some signature
 schemes?
+sida 151 crypto 101
+
+----------------------Assignments from lecture 5 crypto----------------------
+
 
 
 
