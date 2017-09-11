@@ -281,32 +281,79 @@ use (i) a CSPRNG and (ii) a non-CS PRNG.
 	CSPRNG = int(OpenSSL.rand.bytes(1).encode('hex'),16)
 
 	print "CSPRNG = {}".format(CSPRNG)
+	//kolla på urandom
 
 
 4 In a database, you use (verified valid) signatures as primary keys for
 your users. Why could this be a problem with some signature
 schemes?
-sida 151 crypto 101
+	Becouse if the verified valid signature breaks you can create the same signature
+	and since you cant have the same value more then 1 time's in a DB as primary key
+
+	ev(sida 151 crypto 101)
+	ev opt out
 
 ----------------------Assignments from lecture 5 crypto----------------------
 1 What is the difference between secure symmetric encryption and
 secure authenticated symmetric encryption?
+https://security.stackexchange.com/questions/23565/when-using-symmetric-key-encryption-do-we-need-to-sign
+	Encryption with a secret symmetric key does not prove authenticity unless you use an authenticated encryption mode of operation such as GCM.
+	Authenticated encryption algorithms generate a Message Authentication Code (MAC) in addition to encrypting the message, and if the shared key 
+	is properly secured this can be used to prove the authenticity and integrity of the message
 
 2 In a programming language of your choice, show how to encrypt the
 message “hello world!” with NaCl/libsodium secretbox.
+	import nacl.secret
+	import nacl.utils
+	from binascii import hexlify
+
+
+	key = nacl.utils.random(nacl.secret.SecretBox.KEY_SIZE)
+	box = nacl.secret.SecretBox(key)
+	message = b"Hello world"
+
+	print message
+	encrypted = box.encrypt(message)
+	print "Encrypted msg {0}".format(hexlify(encrypted))
+
+	plaintext = box.decrypt(encrypted)
+	print plaintext
 
 3 What is the point of using ephemeral (EC)DH, as denoted by ECDHE
 or DHE, in a TLS cipher suite?
+	To provide forward security by generating a new keypair for each execution of a key establishment process
 
 4 Briefly explain the role of each primitive/scheme in the
 TLS_ECDH_RSA_WITH_AES_128_GCM_SHA256 TLS cipher suite.
+	Each named cipher suite, defines a key exchange algorithm, a bulk encryption algorithm, 
+	a message authentication code (MAC) algorithm, and a pseudorandom function (PRF).
+
+	*The key exchange algorithm, e.g. ECDHE_RSA, is used to determine if and how the client and server will authenticate during the handshake.
+	e.g Elliptic curve Diffie–Hellman (ECDH) and for authentication RSA
+    	*The bulk encryption algorithm, e.g. AES_128_GCM, is used to encrypt the message stream. It also includes the key size and the lengths of explicit and implicit
+	 initialization vectors
+	*The message authentication code algorithm, e.g. SHA256, is used to create the message digest, a cryptographic hash of each block of the message stream.
+	*The pseudorandom function, e.g. TLS PRF(pseudorandom function) using the MAC algorithm's hash function, is used to create the master secret, a 48-byte secret shared between
+	 the two peers in the connection. The master secret is used as a source of entropy when creating session keys, such as the one used to create the MAC. 
 
 5 Briefly explain the role of each primitive/scheme in the
 TLS_PSK_WITH_CAMELLIA_128_CBC_SHA256 TLS cipher suite.
+	*The key exchange algorithm, e.g. PSK, is used to determine if and how the client and server will authenticate during the handshake.
+	e.g PSK - Pre-shared key is a secret key that has been shared between the two parties before on a secure channel.
+
+    	*The bulk encryption algorithm, e.g. Camellia is a symmetric key block cipher with a block size of 128 bits.
+
+	*The message authentication code algorithm, e.g. SHA256, is used to create the message digest, a cryptographic hash of each block of the message stream.
+
+	*The pseudorandom function, e.g. TLS PRF(pseudorandom function) using the MAC algorithm's hash function, is used to create the master secret, a 48-byte secret shared between
+	 the two peers in the connection. The master secret is used as a source of entropy when creating session keys, such as the one used to create the MAC. 
 
 6 What is the name or names of the one or more certificate authorities
 that signed the certificate for https://www.kau.se?
-
+	*Certificate Hierarchy
+		-DigiCert High Assurance EV root CA
+		-TERENA SSL High Assurance CA 3
+	
 7 Briefly explain what is “Let’s Encrypt”.
 
 
