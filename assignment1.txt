@@ -10,10 +10,19 @@
 	*Nonce a number only used once.
 	*IV(initialization vector): has to be an random stream of bytes as the same size as 
 	the CBC block size. This vector also has to be unpredictable.
-		Conversely, most block cipher modes of operation require an IV which is random 			and unpredictable, or at least unique for each message encrypted with a given 			key. (Of course, if each key is only ever used to encrypt a single message, 			one can get away with using a fixed IV.) This random IV ensures that each 			message encrypts differently, such that seeing multiple messages encrypted 			with the same key doesn't give the attacker any more information than just 			seeing a single long message. In particular, it ensures that encrypting the 			same message twice yields two completely different ciphertexts, which is 			necessary in order for the encryption scheme to be semantically secure.
+		Conversely, most block cipher modes of operation require an IV which is random 			
+		and unpredictable, or at least unique for each message encrypted with a given 			
+		key. (Of course, if each key is only ever used to encrypt a single message, 			
+		one can get away with using a fixed IV.) This random IV ensures that each 
+		message encrypts differently, such that seeing multiple messages encrypted 			
+		with the same key doesn't give the attacker any more information than just 			
+		seeing a single long message. In particular, it ensures that encrypting the 			
+		same message twice yields two completely different ciphertexts, which is 			
+		necessary in order for the encryption scheme to be semantically secure.
 	The difference is that a Nonce is a random number only used once and for a short time
 	with the intention of beeing replaced by or converted into something better(e.g CTR)
-	An IV is also used as input for an crypto primitive to achieve randomization to our 		first block in a CBC mode and therefor messages that is the same (m1=m2) will not
+	An IV is also used as input for an crypto primitive to achieve randomization to our 		
+	first block in a CBC mode and therefor messages that is the same (m1=m2) will not
 	encrypt to the same cipher.
 	
 3 What is the difference between a protocol and an algorithm?
@@ -38,10 +47,13 @@
 	*In CBC mode each block of plaintext is XOR'd with the previous ciphertext block 
 	(if first block the IV is used) before beeing encrypted. To make sure that every
 	message is unique an IV must be used on the first block. Since the block cipher
-	encryption relys on the the previous block used the encryption process must be done in 		sequence and cannot be parallelized(downside/slow).
+	encryption relys on the the previous block used the encryption process must be done in 		
+	sequence and cannot be parallelized(downside/slow).
+	
 	One other important aspect is padding, when we try to break down a message into blocks
 	what will happen if the last block is not even with the block size?
-	message_block != block_size. We have to padd the last block so the block is fully 		filled. When padding we ussaly fill with ones or zeros. But when we decrypt how
+	message_block != block_size. We have to padd the last block so the block is fully 		
+	filled. When padding we ussaly fill with ones or zeros. But when we decrypt how
 	much do we need to unpad? One way in python is useing these lambda expressions:
 	BLOCK_SIZE = 16  # Bytes
 	pad = lambda s: s + (BLOCK_SIZE - len(s) % BLOCK_SIZE) * \
@@ -59,7 +71,8 @@
 	*CTR mode(counter mode): Is a mode of operation that works by concatenating 
 	a nonce with a block counter. The counter is incremented with each of the blocks and
 	then padded with zeroes so that the whole string is as long as the block size. This
-	resulting string is then run trough the block cioher. The output of the block zipher 		is the used XOR'd with the message block to produce the final encrypted block.
+	resulting string is then run trough the block cioher. The output of the block zipher 		
+	is the used XOR'd with the message block to produce the final encrypted block.	
 	To decrypt we just do the same thing on the reciver side except when we XOR, we 
 	xOR with the ciphertext block. This is since XORing a bit with the same value twice
 	will produce the original bit. pi ⊕ si ⊕ si = pi. What this means is that both
@@ -71,13 +84,15 @@
 	https://upload.wikimedia.org/wikipedia/commons/3/3c/CTR_decryption_2.svg
 	
 	PS: With hardware supprt CBC mode can be as fast if not faster then CTR mode. But
-	this needs to be implemented in the hardware that most CPU manufactures today 		implements
+	this needs to be implemented in the hardware that most CPU manufactures today implements
 
 
 5 For symmetric encryption with a block cipher using CBC-mode, what is the consequence of:
 	*Using a predictable IV?: If we use a predictable IV we can use an so called:
 	Chosen-Plaintext Attack. If we look at an easy game regarding this:
-	If we pretend that our DBA at company X is an advesary. This company store medical 	   illnesses of its costumers as "yes/no" but these awnser are encrypted with CBC. Our 		DBA realizes that he can extort ppl with serten illnesses for money. 
+	If we pretend that our DBA at company X is an advesary. This company store medical 	   
+	illnesses of its costumers as "yes/no" but these awnser are encrypted with CBC. Our 		
+	DBA realizes that he can extort ppl with serten illnesses for money. 
 	In CBC mode the IV is XOR'd with the plaintext, then run block encryption ciper giving 
 	ecvation: C1 = Ek(IV ⊕ P1).
 	
@@ -89,11 +104,15 @@
 	Cx = Ek(IVx ⊕ Px) = Ek(IVx ⊕ (Ivx ⊕ IVa ⊕ "false")).
 	The IVx ⊕ Ivx will cancel out eachother wich means the ecvation will change to:
 	Cx = Ek(IVa ⊕ "false")
-	Now our adversary can simply compare the ourput he got with alices and see if they 		match(e.g false to that illness) or if they dont match alice has the illnes.
+	Now our adversary can simply compare the ourput he got with alices and see if they 		
+	match(e.g false to that illness) or if they dont match alice has the illnes.
 
 	*Reusing an IV?
 	Problem is that same messages will encrypt to the same cipher text. 
-	Specifically, assuming there's no padding, the vulnerability that occurs with using t	he same IV every time is that if you start out encrypting the same data you encrypted 		last time, you'll get the same encrypted string both times. This allows attackers to 		infer something about the message content, though it doesn't help them decrypt it.
+	Specifically, assuming there's no padding, the vulnerability that occurs with using the same 
+	IV every time is that if you start out encrypting the same data you encrypted 		
+	last time, you'll get the same encrypted string both times. This allows attackers to 		
+	infer something about the message content, though it doesn't help them decrypt it.
 
 	C1 = E(P1 ⊕ IVx)
 	C2 = E(P2 ⊕ IVx)
@@ -104,7 +123,9 @@
 	fråga tobisas!!
 
 6 How is ROT13 related to the Caesar cipher? Give an example.
-	Both are so called "simple" letter substitution cipher's that replaces a letter with 		the letter X steps forward. ROT13 is 13 step ahead of the original character. 
+	Both are so called "simple" letter substitution cipher's that replaces a letter with 		
+	the letter X steps forward. ROT13 is 13 step ahead of the original character. 
+	
 	Using a Cesar shift of 13 will yeld the same as the ROT13 cipher.
 	Input 	ABCDEFGHIJKLM | NOPQRSTUVWXYZ | abcdefghijklm | nopqrstuvwxyz
 	Output 	NOPQRSTUVWXYZ | ABCDEFGHIJKLM | nopqrstuvwxyz | abcdefghijklm
@@ -116,11 +137,15 @@
 semantically secure encryption algorithm: does this break semantic security? Explain why (not).
 	It does not break the semanticly secured scheme since in case of BEAST attack they
 	use that the compressing algorithm "leaks" information about a block becouse one
-	optimasation compress algos has is that if a block that is beeing compress'd is the 		same as one before it does not compress it again it only gives a referens to the passt
+	optimasation compress algos has is that if a block that is beeing compress'd is the 		
+	same as one before it does not compress it again it only gives a referens to the passt
 	compress'd block. The way TLS has protected against this is using explicit IV's
 	
 	REF:https://crypto.stackexchange.com/questions/2641/why-do-new-versions-of-tls-use-an-explicit-iv-for-cbc-suites
-	[CBCATT] describes a chosen plaintext attack on TLS that depends on knowing the IV for 		a record. Previous versions of TLS [TLS1.0] used the CBC residue of the previous 		record as the IV and therefore enabled this attack. This version uses an explicit IV 		in order to protect against this attack.
+	[CBCATT] describes a chosen plaintext attack on TLS that depends on knowing the IV for 		
+	a record. Previous versions of TLS [TLS1.0] used the CBC residue of the previous 		
+	record as the IV and therefore enabled this attack. This version uses an explicit IV 		
+	in order to protect against this attack.
 
 	http://www.ietf.org/rfc/rfc4346.txt
         http://www.openssl.org/~bodo/tls-cbc.txt.
@@ -130,11 +155,18 @@ semantically secure encryption algorithm: does this break semantic security? Exp
 ----------------------Assignments from lecture 2 crypto----------------------
 1 For a cryptographic hash function, what is the difference between
 second pre-image resistance and collision resistance?
-	Collision resistance is about the infeasibility of finding two distinct inputs m and 		m' such that h(m) = h(m'). The attacker gets to choose m and m' arbitrarily, as long 		as he ends up with two distinct messages that hash to the same value.
+	Collision resistance is about the infeasibility of finding two distinct inputs m and 		
+	m' such that h(m) = h(m'). The attacker gets to choose m and m' arbitrarily, as long 		
+	as he ends up with two distinct messages that hash to the same value.
 
-	Second-preimage resistance is very similar except that the attacker does not get to 		choose m. Instead, we give him m, and challenge him with finding m' (distinct from m) 		such that h(m) = h(m').
+	Second-preimage resistance is very similar except that the attacker does not get to 		
+	choose m. Instead, we give him m, and challenge him with finding m' (distinct from m) 		
+	such that h(m) = h(m').
 
-	A second-preimage is also a collision, but we keep the concept distinct because 	second-	preimages are supposed to be substantially harder. If the hash function has an 		output of n bits and is "perfect" (no known weakness), then the cost of finding a 		collision is 2^(n/2), while the cost of finding a second-preimage is 2^n (i.e. a lot 		more).
+	A second-preimage is also a collision, but we keep the concept distinct because 	
+	second-	preimages are supposed to be substantially harder. If the hash function has an 		
+	output of n bits and is "perfect" (no known weakness), then the cost of finding a 		
+	collision is 2^(n/2), while the cost of finding a second-preimage is 2^n (i.e. a lot more).
 
 	PS: if an hash function is collision resistant this also imples that the hash function
 	is also Secound-preimage resistance. 
@@ -170,7 +202,8 @@ about what are valid characters and what kind of PC the attacker has
 5 Alice and Bob share a secret key sk. Alice sends to Bob, over a network, a message
 m and a tag t from a MAC over m using sk. How does Bob verify that the message hasn’t been tampered with?:
 	Alice tag = at, bob tag = bt.
-	Bob can run the message into the MAC algorithm and the "MAC/TAG" outputed is then 		compared. if they are the same(at = bt), the message has not been tamperd with.
+	Bob can run the message into the MAC algorithm and the "MAC/TAG" outputed is then 		
+	compared. if they are the same(at = bt), the message has not been tamperd with.
 	
 
 6 You go to a website and download a file. The website lists the MD5,
@@ -179,7 +212,7 @@ useful is this for security? Motivate your answer.
 	This is suer useful to verify that a file has not been tamperd with.
 	When you have downloaded a file you can run it through the hasfunction and if the
 	hash value return = the one on the homepage the file has not been tamperd with.
-	If somthing has been change'd even 1 bit it will make the hash value look completly 		diffrent because of the avalanche effect.
+	If somthing has been change'd even 1 bit it will make the hash value look completly diffrent because of the avalanche effect.
 	PS: against MITM attacks and if the server hosting the file is compromised  but
 	not the web frontend so that hashvalue is still the same.
 	
@@ -188,13 +221,16 @@ useful is this for security? Motivate your answer.
 You use the feature and the website sends you your password to your
 email. What does this imply? Is it good or bad? Motivate your answer.
 	https://softwareengineering.stackexchange.com/questions/29753/what-type-of-password-reset-forgot-password-verification-mechanism-would-you-r
-	It depends on what process the password is recoverd. Is it sent in plaintext in the 		email, this is really bad since traffic can be ecedropd on and also implies that
+	It depends on what process the password is recoverd. Is it sent in plaintext in the 		
+	email, this is really bad since traffic can be ecedropd on and also implies that	
 	you are the only one having access to that email. If the website sends a one time token
-	(https adress) to theire webpage where u can create your own password this is abit 		better but same issue's as above is emplyed. But this time the password is still hidden
+	(https adress) to theire webpage where u can create your own password this is abit 		
+	better but same issue's as above is emplyed. But this time the password is still hidden	
 	if you are the first one to use the token. as we can see both these methods weeknes is
-	in the email step where it relys on that you are the only one having access to that 		email. This is tho the most accepted method for most pepole, since we do not want a 
+	in the email step where it relys on that you are the only one having access to that 		
+	email. This is tho the most accepted method for most pepole, since we do not want a 	
 	user to have a bad experiance using the service if we have to use a more "sercure" way.
-	e.g send it to the persons home address by letter using a letter that can be easy to 		see if it has been tamperd with. 
+	e.g send it to the persons home address by letter using a letter that can be easy to see if it has been tamperd with. 
 	From a security standpoint its a bad way but it is a compromise between security and
 	user experiance.
 
@@ -255,8 +291,8 @@ m is still the same after encryption and decryption.
 4 How can an active adversary subvert a DH key-exchange?
 https://stackoverflow.com/questions/10471009/how-does-the-man-in-the-middle-attack-work-in-diffie-hellman
 https://www.youtube.com/watch?v=PPt7yvBtGRI
-	"The Diffie-Hellman key exchange is vulnerable to a man-in-the-middle attack. In this 		attack, an opponent Carol intercepts Alice's public value and sends her own public 		value to Bob. When Bob transmits his public value, Carol substitutes it with her own 		and sends it to Alice. Carol and Alice thus agree on one shared key and Carol and Bob 		agree on another shared key. After this exchange, Carol simply decrypts any messages 		sent out by Alice or Bob, and then reads and possibly modifies them before 
-	re-encrypting with the appropriate key and transmitting them to the other party. This 		vulnerability is present because Diffie-Hellman key exchange does not authenticate the 		participants. Possible solutions include the use of digital signatures and other 		protocol variants."
+	"The Diffie-Hellman key exchange is vulnerable to a man-in-the-middle attack. In this attack, an opponent Carol intercepts Alice's public value and sends her own public 		value to Bob. When Bob transmits his public value, Carol substitutes it with her own and sends it to Alice. Carol and Alice thus agree on one shared key and Carol and Bob 		agree on another shared key. After this exchange, Carol simply decrypts any messages sent out by Alice or Bob, and then reads and possibly modifies them before 
+	re-encrypting with the appropriate key and transmitting them to the other party. This vulnerability is present because Diffie-Hellman key exchange does not authenticate the 		participants. Possible solutions include the use of digital signatures and other protocol variants."
 
 ----------------------Assignments from lecture 4 crypto----------------------
 1 Why does it make sense to assume that the adversary always has
