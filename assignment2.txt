@@ -1,0 +1,90 @@
+----------------------Assignments from lecture 1 Firewall----------------------
+1.  What is an IP fragmentation attack? Show how an IP fragmentation 
+attack can be used to bypass a firewall.
+	https://imgur.com/a/stOKm
+	By setting a smaller off-set on fragment 2, we can the rewrite the header for lets say
+	port number in fragment 1 when the packet is reasembled. If the firewall dont have the
+	capability to reassemble the fragments the attack will go undetected since almost all
+	the time fragment reassemble is done at the end host.
+	http://resources.infosecinstitute.com/bypassing-packet-filters-with-ip-fragmentation-overlapping/#gref
+	----------------------------------------------------------------------
+	Let’s assume that the packet filter allows only the connections to port 80, but the 		
+	attacker wants to connect to port 23. Although the packet filter is configured to 		
+	block the connections to port 23, the attacker might try to use IP fragmentation 	 
+	overlapping to bypass the packet filter and finally connect to this port.
+
+	This attack works as follows. The packet filter might be implemented in the way that 		
+	the first fragment is checked according to the implemented rules – when the connection 		
+	to port 80 is seen, the packet filter accepts this fragment and forwards it to the 		
+	receiver. Moreover, the packet filter may assume that the next fragments just include 		
+	the data, and this is not interesting from its point of view. As a consequence, the 		
+	packet filter forwards the next fragments to the receiver.
+
+	Recall at this point that the reassembling occurs when the fragments arrive to the receiver. 
+	The next fragment (as it has been said – forwarded by the packer filter) might have been specially 
+	prepared by the attacker – the carefully chosen offset has been used to overwrite the value of the
+ 	destination port from the first fragment. The receiver waits for all fragments, reassembles 
+	them, and finally the connection to port of the attacker’s choice is established.
+
+	The assumption here is that the packet filter looks at the first fragment that has all 
+	the necessary information to make a decision about forwarding or denying the fragment – the other fragments
+	are assumed not to have interesting data (from packet filter’s point of view) and are just forwarded.
+
+	How could we solve this problem? If the packet filter reassembled the fragments before making a decision (forward or deny), 
+	then the attacker would be stopped. As we can see this approach is about understanding the state or 
+	context of the traffic and is called stateful inspection (in contrast to the previously 
+	described packet filter that is stateless).
+	
+	
+2.  What is a firewall default rule? Which default rule would you 
+consider more secure? Explain.
+	The firewall defaualt rule is a rule that if nothing els matches in the table this rule is take.
+	There is 2 default rule's that can be choosen {ALLOW ALL or DENY ALL)
+	The default rule that is more secure is DENY ALL since it considrably more easy to add a rule for
+	someone that needs access then to react to an already ongoing attack since a drop rule could have 
+	been missed to be added to the table.
+
+3.  What are the netfilter/iptable chains? When are they used?
+	There are 3 chains {Froward, Input, Output}
+	The Forward chain is used when the traffic is not designated to that host, (see drawing on lecture your own lecture notes)
+	The input and Output chain is used when traffic is designated to that host. eg let say i wanna ping or SSH to a firewall.
+	when the request comes into the firewall the packet is "hooked" into the input chain. Since i want to interact directly with 
+	the firewall.
+
+•  You have on your local area network (LAN) a server running  two 
+services: Apache (an HTTP daemon) on port 80 and SSH (a secure 
+shell) on port 22. A router connects the LAN to the Internet.
+
+4)  Assuming that you are running iptables on your router, write a rule 
+that allows incoming traffic on ports 80 and blocks all other access 
+to the server. Assume that the server IP address is <server-ip>.
+	#Set filter policy	
+	(iptables -P INPUT DROP
+	iptables -P OUTPUT DROP)
+	iptables -P FORWARD DROP
+	iptables -A FORWARD -p tcp -d <server-ip> --dport 80 -j ACCEPT
+	iptables -A FORWARD -p tcp -s <server-ip> --sport 80 -j ACCEPT
+
+ 
+5)  Consider that a stateless firewall that blocks all incoming traffic to 
+the server that is not directed to port 80. How could an attacker 
+establish a connection to the SSH port?
+	Same a question 1.
+----------------------Assignments from lecture 2 IDS----------------------
+1.  What are the two fundamental models of detection for Intrusion 
+Detection Systems? Explain the idea behind each model.
+
+2.  A common way that the Great Firewall of China has to censor data 
+is to force a disconnection. 
+	a)  How does the Great Firewall do that? 
+	b)  Our colleagues from Cambridge figure out a way to go around 
+	censorship using iptables. Write down the rule that they use.
+3.  A company wants its NIDS to screen the content of HTTPS traffic 
+that reaches its web servers. How can that be achieved?
+
+4.  Stockholm is dirt. One in 10,000 citizens is a litterer. In an attempt 
+to make the city cleaner, the city authority installed a surveillance 
+system which can detect litterers with a false positive and false 
+negative rate of 1%. Is this system satisfactory? Why or why not?
+(Stockholm’s urban population is about 1.6M)
+
