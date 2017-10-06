@@ -1,5 +1,20 @@
 ----------------------Assignments from lecture 1 Firewall----------------------
-1.  What is an IP fragmentation attack? Show how an IP fragmentation 
+1.  What is a firewall default rule? Which default rule would you 
+consider more secure? Explain.
+	The firewall defaualt rule is a rule that if nothing els matches in the table this rule is take.
+	There is 2 default rule's that can be choosen {ALLOW ALL or DENY ALL)
+	The default rule that is more secure is DENY ALL since it considrably more easy to add a rule for
+	someone that needs access then to react to an already ongoing attack since a drop rule could have 
+	been missed to be added to the table.
+
+2.  What are the netfilter/iptable chains? When are they used?
+	There are 3 chains {Froward, Input, Output}
+	The Forward chain is used when the traffic is not designated to that host, (see drawing on lecture your own lecture notes)
+	The input and Output chain is used when traffic is designated to that host. eg let say i wanna ping or SSH to a firewall.
+	when the request comes into the firewall the packet is "hooked" into the input chain. Since i want to interact directly with 
+	the firewall.
+
+3(VETO).  What is an IP fragmentation attack? Show how an IP fragmentation 
 attack can be used to bypass a firewall.
 	https://imgur.com/a/stOKm
 	By setting a smaller off-set on fragment 2, we can the rewrite the header for lets say
@@ -34,26 +49,7 @@ attack can be used to bypass a firewall.
 	then the attacker would be stopped. As we can see this approach is about understanding the state or 
 	context of the traffic and is called stateful inspection (in contrast to the previously 
 	described packet filter that is stateless).
-	
-	
-2.  What is a firewall default rule? Which default rule would you 
-consider more secure? Explain.
-	The firewall defaualt rule is a rule that if nothing els matches in the table this rule is take.
-	There is 2 default rule's that can be choosen {ALLOW ALL or DENY ALL)
-	The default rule that is more secure is DENY ALL since it considrably more easy to add a rule for
-	someone that needs access then to react to an already ongoing attack since a drop rule could have 
-	been missed to be added to the table.
 
-3.  What are the netfilter/iptable chains? When are they used?
-	There are 3 chains {Froward, Input, Output}
-	The Forward chain is used when the traffic is not designated to that host, (see drawing on lecture your own lecture notes)
-	The input and Output chain is used when traffic is designated to that host. eg let say i wanna ping or SSH to a firewall.
-	when the request comes into the firewall the packet is "hooked" into the input chain. Since i want to interact directly with 
-	the firewall.
-
-•  You have on your local area network (LAN) a server running  two 
-services: Apache (an HTTP daemon) on port 80 and SSH (a secure 
-shell) on port 22. A router connects the LAN to the Internet.
 
 4)  Assuming that you are running iptables on your router, write a rule 
 that allows incoming traffic on ports 80 and blocks all other access 
@@ -69,22 +65,160 @@ to the server. Assume that the server IP address is <server-ip>.
 5)  Consider that a stateless firewall that blocks all incoming traffic to 
 the server that is not directed to port 80. How could an attacker 
 establish a connection to the SSH port?
-	Same a question 1.
+	Same a question 3. IP fragmentation
 ----------------------Assignments from lecture 2 IDS----------------------
-1.  What are the two fundamental models of detection for Intrusion 
+6.  What are the two fundamental models of detection for Intrusion 
 Detection Systems? Explain the idea behind each model.
+	* Signature-based IDS refers to the detection of attacks by looking for specific 	 
+	patterns, such as byte sequences in network traffic, or known malicious instruction 		
+	sequences used by malware.Although signature-based IDS can easily detect known 		
+	attacks, it is impossible to detect new attacks, for which no pattern is available.
+	
+	* Anomaly-based:in part due to the rapid development of malware. The basic approach is 		
+	to use machine learning to create a model of trustworthy activity, and then compare 		
+	new behavior against this model. Although this approach enables the detection of 		
+	previously unknown attacks, it may suffer from false positives: previously unknown 		
+	legitimate activity may also be classified as malicious.
 
-2.  A common way that the Great Firewall of China has to censor data 
+7.  Pattern matching are signature based systems that are build on top 
+of two heuristic models. Name and explain those two models
+	Misuse modelling: Rule-based detection, IF a sequence of events violates a security
+	policy then report the viloation.
+	Specificantion modelling: Looks for states known not to the good. 
+
+
+
+8.  A common way that the Great Firewall of China has to censor data 
 is to force a disconnection. 
 	a)  How does the Great Firewall do that? 
+		Sending rest(RST) packets to both the client and server.
 	b)  Our colleagues from Cambridge figure out a way to go around 
 	censorship using iptables. Write down the rule that they use.
-3.  A company wants its NIDS to screen the content of HTTPS traffic 
-that reaches its web servers. How can that be achieved?
+		iptables -A input -p tcp --tcp-flags RST RST -j DROP
 
-4.  Stockholm is dirt. One in 10,000 citizens is a litterer. In an attempt 
+9.  A company wants its NIDS to screen the content of HTTPS traffic 
+that reaches its web servers. How can that be achieved?
+	SSL mitm / strip. 
+
+10.  Stockholm is dirt. One in 10,000 citizens is a litterer. In an attempt 
 to make the city cleaner, the city authority installed a surveillance 
 system which can detect litterers with a false positive and false 
 negative rate of 1%. Is this system satisfactory? Why or why not?
 (Stockholm’s urban population is about 1.6M)
+	Assuming 100001 packets. 10000 is safe and 1 packets is malicious.
+	*FP and FN rate is 1%
+		*FP 100 out of 10000 packets are falsely marked malicious.
+		*FN 0.01 out of 1 packets are falsely marked as benign.	
+	*True positives: 1 - 0.01 = 0.99 packets.
+	This means that there is 100 false positives for every 0.99 true prositiv packets.
+		100X as many false positives as true positives.
+	This is alot of work to go trough and the acctual true positive will
+	with a high probability be missed.
+
+----------------------Assignments from lecture 3 Applied network sec ----------------------
+	11. How do you check which services running in the file server?
+		nmap -sS 192.168.56.101
+	12. How often are those other services (if any) been accessed?
+		MAC-spoofing and wireshark
+	13. How to verify which computers are heavily accessing the server
+		MAC-spoofing and wireshark
+
+Your loved one does not remember her/his password to her/his Spotify premium account.
+She/He does remember that the password was exactly the same that she/he has to login
+on your Linux PC (that she/he never touches!).
+	14. How are you going to recover his/her password? What tool(s) do you need?
+		Firstly cat /etc/passwd and /etc/shadow then use John the ripper.
+		-unshadow /etc/passwd /etc/shadow > mypasswd
+		john mypasswd
+	15. Which operational mode are you going to use first?
+	Explain and justify your answer.
+		(I will use john mypasswd since it will cycle trough first "single crack" 			
+		then use a wordlist with rules and finnaly go for the incremental mode.)
+		If i would use only one mode i would choose Single crack since alot of 
+		pepole use for example ELITE speak. But if i would have a huge word-list
+		i would probably use that first.
+
+----------------------Assignments from lecture 4 Web sec----------------------
+16.  Why do we have the same origin policy in browsers?
+Explain when can code interact.
+	*So that code from different site cant share data between them. Eg a malicius site
+	cant fetch data from your facebook tab.
+	*Code can interact when they are from the same domain and not when twitter != fb.com
+	When they use same application layer protocol eg not HTTP != HTTPS
+	Using the same TCP port. eg not 80 != 443
+
+17.  (a) To what type of attack is the code above vulnerable to?	
+	*Since we dont sanitice input from the user one can easily cat together more
+	bash commands as input and it will be executed on the same level as the application
+	is running on.
+     (b) How could it be exploited? Provide one example.
+	https://www.owasp.org/index.php/Command_Injection
+	* $ ./catWrapper "Story.txt; ls"
+
+18.   How could that be prevented?
+	Sanitice input from users / files(only accept surtent size and file extention)
+	Sanitice = If we find ';' in the string error out and dont process the call.
+
+19.  Explain what is (stored) cross-site scripting (XSS) and how it works.
+	Stored attacks are those where the injected script is permanently stored on the 
+	target servers, such as in a database, in a message forum, visitor log, comment 
+	field, etc. The victim then retrieves the malicious script from the server when 
+	it requests the stored information. Stored XSS is also sometimes referred to as 
+	Persistent or Type-I XSS.
+
+	https://www.owasp.org/index.php/Cross-site_Scripting_(XSS)
+	https://imgur.com/a/GHaJr
+
+20. Consider a SQL database with a table CIA_agents that is accessed using the following 
+dynamic SQL statement:"SELECT * FROM CIA_agents WHERE id = '" + $id + "'";
+Write an input to the SQL statement above that retrieves all entries from the 
+CIA_agents table, i.e., is equivalent to 
+SELECT * FROM CIA_agents;	
+	*SELECT * FROM CIA_agents WHERE ID = 'xxx' OR '1' = '1';
+		Input to the field if lets sat webpage:
+		input: xxx' OR '1' = '1	
+
+21. Name two methods to prevent SQL injection attacks.
+	*Parametrized statements: dontn embed users input into SQL statements.
+	*Escaping or whitelisting of inputs: get rid of characters with special
+	meaning to SQL Eg ', = 
+	*Premission of the webapp towards the DB: Set it so it only can do a specific
+	task and not be able to use the entire database.
+	*Dont leak DB error messages.
+----------------------Assignments from lecture 5 Wireless ----------------------
+22. Why increasing WEP’s secret key length to 104 or even 232 bits not 
+enough to make it secure? (VETO)
+http://www.dummies.com/programming/networking/understanding-wep-weaknesses/
+	*The IV is too small and in cleartext.
+	* Reuse of the same IV produces identical key streams for the protection 
+	of data, and because the IV is short, it guarantees that those streams 
+	will repeat after a relatively short time (between 5 and 7 hours) on a busy network.
+
+23. TKIP was designed to correct the most serious flaws in WEP while 
+keeping the RC4 algorithm. How does TKIP address the weaknesses of 
+WEP?
+	* Re-keying mechanism to provide fresh keys. And use diffrent keys for diffrent 	
+	purposes
+	*Per packet mixing function -> prevent weak key attacks, MAC of the destination 
+	is mized to the temporal key.
+	*Dicipline for IV sequencing -> prevent IV resuse, IV counter i reseted after the 		
+	establishment of fresh keys
+
+24. What does RSNA algorithms specify?	(VETO)
+	(Robust secure network association):
+	* Crypto keys = {Key hierarchy, Key setting, Distribution method}
+	*The data confidentiality / integrity protocols
+	*Network architecture for authentication.
+	
+
+25. Explain there is a 4-way handshake in WPA2. What are its (VETO)
+outputs? How does it work?
+	https://upload.wikimedia.org/wikipedia/commons/a/ac/4-way-handshake.svg
+	1: The AP sends a nonce-value to the STA(Anounce). The client now has all the 		
+	attributes to construct the PTK(Pairwire Transient key) 
+	2: The STA sends it own nonce(STAnonce) to the AP together with a MIC including auth
+	3: The AP constructs and send the GTK(Group temporal key) and a seq number together 		
+	with another MIC. Tis seq number will be used in the next multicast or broadcast frame,
+	so that the reciving STA can prform basic replay detection.
+	4: The STA sends a confirmation to the AP.
 
